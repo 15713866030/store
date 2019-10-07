@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.store.mapper.DistrictMapper">
+	<!-- 通过parent查找同区域的地名 -->
+	<select id="findByParent" resultType="cn.tedu.store.entity.District">
+		SELECT
+		*
+		FROM
+		t_dict_district
+		WHERE
+		parent=#{parent}
+		ORDER BY
+		id
+
+	</select>
+	
+	<!-- 通过code查询相关信息 -->
+	<select id="findByCode" resultType="cn.tedu.store.entity.District">
+	SELECT
+	*
+	FROM
+	t_dict_district
+	WHERE
+	code=#{code}
+		
+	</select>
+
+</mapper>

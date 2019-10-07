@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.store.mapper.OrderMapper">
+
+	<resultMap id="OrderEntityMap" type="cn.tedu.store.entity.Order">
+		<id column="oid" property="oid"></id>
+		<result column="uid" property="uid"></result>
+		<result column="recv_name" property="recvName"></result>
+		<result column="recv_phone" property="recvPhone"></result>
+		<result column="recv_province" property="recvProvince"></result>
+		<result column="recv_city" property="recvCity"></result>
+		<result column="recv_area" property="recvArea"></result>
+		<result column="recv_address" property="recvAddress"></result>
+		<result column="total_price" property="totalPrice"></result>
+		<result column="status" property="status"></result>
+		<result column="order_time" property="orderTime"></result>
+		<result column="pay_type" property="payType"></result>
+		<result column="pay_time" property="payTime"></result>
+		<result column="created_user" property="createdUser"></result>
+		<result column="created_time" property="createdTime"></result>
+		<result column="modified_user" property="modifiedUser"></result>
+		<result column="modified_time" property="modifiedTime"></result>
+
+
+	</resultMap>
+
+	<insert id="saveOrder" useGeneratedKeys="true" keyProperty="oid">
+		INSERT
+		INTO t_order(
+		oid,
+		uid,recv_name,
+		recv_phone,recv_province,
+		recv_city,recv_area,
+		recv_address,total_price,
+		status,order_time,
+		pay_type,pay_time,
+		created_user,created_time,
+		modified_user,modified_time)
+		VALUES(
+		#{oid},
+		#{uid},#{recvName},
+		#{recvPhone},#{recvProvince},
+		#{recvCity},#{recvArea},
+		#{recvAddress},#{totalPrice},
+		#{status},#{orderTime},
+		#{payType},#{payTime},
+		#{createdUser},#{createdTime},
+		#{modifiedUser},#{modifiedTime}
+		)
+	</insert>
+
+	<insert id="saveOrderItem" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO t_order_item(
+		id,oid,
+		pid,title,
+		image,price,
+		num,
+		created_user,created_time,
+		modified_user,modified_time)
+		VALUES(
+		#{id},#{oid},
+		#{pid},#{title},
+		#{image},#{price},
+		#{num},
+		#{createdUser},#{createdTime},
+		#{modifiedUser},#{modifiedTime}
+		)
+	</insert>
+
+
+
+
+
+
+
+
+
+</mapper>

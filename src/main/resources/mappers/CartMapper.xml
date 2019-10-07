@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.store.mapper.CartMapper">
+	<resultMap id="CartEntityMap" type="cn.tedu.store.entity.Cart">
+		<id column="cid" property="cid"></id>
+		<result column="uid" property="uid"></result>
+		<result column="pid" property="pid"></result>
+		<result column="num" property="num"></result>
+		<result column="price" property="price"></result>
+		<result column="created_user" property="createdUser"></result>
+		<result column="created_time" property="createdTime"></result>
+		<result column="modified_user" property="modifiedUser"></result>
+		<result column="modified_time" property="modifiedTime"></result>
+	</resultMap>
+	<!-- Integer save(Cart cart); -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="cid">
+		INSERT
+		INTO
+		t_cart(
+		uid,
+		pid,num,
+		price,
+		created_user,created_time,
+		modified_user,modified_time
+		) VALUES(
+		#{uid},
+		#{pid},#{num},
+		#{price},
+		#{createdUser},#{createdTime},
+		#{modifiedUser},#{modifiedTime}
+		)
+	</insert>
+
+	<update id="updateNum">
+		UPDATE
+		t_cart
+		SET
+		num=#{num},
+		modified_user=#{modifiedUser},
+		modified_time=#{modifiedTime}
+		where
+		cid=#{cid}
+
+	</update>
+
+	<select id="findByUidAndPid" resultMap="CartEntityMap">
+		SELECT
+		*
+		FROM
+		t_cart
+		WHERE
+		uid=#{uid}
+		AND
+		pid=#{pid}
+
+	</select>
+
+	<select id="findByUid" resultType="cn.tedu.store.entity.vo.CartVO">
+		SELECT
+		cid,pid,
+		uid,image,title,
+		t_cart.price,
+		t_product.price AS REALprice,
+		t_cart.num
+		FROM
+		t_cart
+		LEFT JOIN
+		t_product
+		ON
+		t_cart.pid=t_product.id
+		WHERE
+		uid=#{uid}
+		ORDER BY
+		t_cart.created_time desc
+
+	</select>
+	<!-- Cart findByCid(Integer cid) -->
+	<select id="findByCid" resultMap="CartEntityMap">
+		SELECT
+		*
+		FROM
+		t_cart
+		WHERE
+		cid=#{cid}
+
+	</select>
+
+
+	<select id="findByCids" resultType="cn.tedu.store.entity.vo.CartVO">
+		SELECT
+		cid,pid,
+		uid,image,
+		title,t_cart.price,
+		t_product.price AS realPrice,
+		t_cart.num
+		FROM
+		t_cart
+		LEFT JOIN
+		t_product
+		ON
+		t_cart.pid=t_product.id
+		WHERE
+		cid IN
+		<foreach collection="array" item="cid" separator="," open="("
+			close=")">
+			#{cid}
+		</foreach>
+		ORDER BY
+		t_cart.created_time DESC
+	</select>
+
+
+
+
+
+</mapper>
